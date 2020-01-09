@@ -1,6 +1,6 @@
 Report       : Temp-aux-RS485
 Date         : 01-09-2020
-Time         : 23:22:05
+Time         : 23:26:24
 
 Compiler     : BASCOM-AVR LIBRARY V 2.0.7.8
 Processor    : M8
@@ -8,9 +8,9 @@ SRAM         : 400 hex
 EEPROM       : 200 hex
 ROMSIZE      : 2000 hex
 
-ROMIMAGE     : A60 hex  -> Will fit into ROM
-ROMIMAGE     :  2656 dec
-FLASH USED   :  32  %
+ROMIMAGE     : A98 hex  -> Will fit into ROM
+ROMIMAGE     :  2712 dec
+FLASH USED   :  33  %
 BAUD         : 38400 Baud
 XTAL         : 8000000 Hz
 BAUD error   : 0.16%
@@ -21,7 +21,7 @@ S-Stacksize  : 10 hex
 S-Stackstart : 438 hex
 Framesize    : 20 hex
 Framestart   : 408 hex
-Space left   :  846  dec
+Space left   :  845  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -98,15 +98,16 @@ COMMINPUT                        String * 9        0081          129
 COM_VALUE                        Word              008B          139 
 COM_COM                          String * 1        008D          141 
 COM_NR                           String * 1        008F          143 
-LED                              Byte              0091          145 
-COM_STAT                         String * 4        0092          146 
-STATUS                           Byte              0097          151 
-VALUE                            Word              0098          152 
-VALUES                           String * 4        009A          154 
-ID                               Byte              009F          159 
-IDS                              String * 2        00A0          160 
-CRC                              Byte              00A3          163 
-VERINFO                          String * 20       00A4          164 
+LED1                             Byte              0091          145 
+LED2                             Byte              0092          146 
+COM_STAT                         String * 4        0093          147 
+STATUS                           Byte              0098          152 
+VALUE                            Word              0099          153 
+VALUES                           String * 4        009B          155 
+ID                               Byte              00A0          160 
+IDS                              String * 2        00A1          161 
+CRC                              Byte              00A4          164 
+VERINFO                          String * 20       00A5          165 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -476,8 +477,8 @@ _SWSTACK_LOW                     &H0428
 _FRAME_HIGH                      &H0429
 _XMEGA                           0
 _VERSION_MAJOR                   1
-_VERSION_MINOR                   0
-_VERSION_BUILD                   7
+_VERSION_MINOR                   1
+_VERSION_BUILD                   2
 MIN_ID                           32
 MAX_ID                           125
 PWM_MAX                          255

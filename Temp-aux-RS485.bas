@@ -1,7 +1,7 @@
 '--------------------------------------------------------------
 '                   Thomas Jensen | stdout.no
 '--------------------------------------------------------------
-'  file: AVR_TEMP_AUX_v.1.0
+'  file: AVR_TEMP_AUX_v.1.1
 '  date: 05/11/2011
 '  prot: 2.10
 '  sn# : 156
@@ -11,12 +11,13 @@ $crystal = 8000000
 $baud = 38400
 Config Portb.0 = Output
 Config Portb.1 = Output
+Config Portb.2 = Output
 Config Watchdog = 128
 
 Config Print0 = Portd.2 , Mode = Set                        'RS-485
 Config Pind.2 = Output                                      'set the direction
 
-$version 1 , 0 , 7
+$version 1 , 1 , 2
 
 'inn
 'PC0: In 1 Temp
@@ -25,7 +26,8 @@ $version 1 , 0 , 7
 
 'ut
 'PB0: Lifesignal
-'PB1: Link activity
+'PB1: Link RX activity
+'PB2: Link TX activity
 
 'serial
 'PD0: Rx
@@ -36,7 +38,7 @@ Dim Send As String * 30 , Stored_id As Eram Byte
 Dim Serialcharwaiting As Byte , Serialchar As Byte
 Dim Comminput As String * 9 , Com_value As Word
 Dim Com_com As String * 1 , Com_nr As String * 1
-Dim Led As Byte , Com_stat As String * 4 , Status As Byte
+Dim Led1 As Byte , Led2 As Byte , Com_stat As String * 4 , Status As Byte
 Dim Value As Word , Values As String * 4 , Id As Byte , Ids As String * 2
 
 Dim Crc As Byte
@@ -52,7 +54,8 @@ Const Out_max = 0
 Const Stat_max = 7
 
 Led_life Alias Portb.0
-Led_act Alias Portb.1
+Led_rx Alias Portb.1
+Led_tx Alias Portb.2
 
 If Stored_id >= Min_id And Stored_id <= Max_id Then Id = Stored_id Else Id = Min_id
 
@@ -75,20 +78,24 @@ Serialcharwaiting = Ischarwaiting()
 If Serialcharwaiting = 1 Then                               'check if serial received
    Serialchar = Inkey()
    If Serialchar = Id Or Serialchar = 126 Then              'look for address or broadcast
-      Led = 203
+      Led1 = 203
       Goto Set_value
       End If
    End If
 
-If Led > 0 Then Decr Led                                    'activity LED timer
-If Led = 200 Then Led_act = 1
-If Led = 0 Then Led_act = 0
+If Led1 > 0 Then Decr Led1                                  'activity receive LED timer
+If Led1 = 200 Then Led_rx = 1
+If Led1 = 0 Then Led_rx = 0
+
+If Led2 > 0 Then Decr Led2                                  'activity send LED timer
+If Led2 = 200 Then Led_tx = 1
+If Led2 = 0 Then Led_tx = 0
 
 If Status = 0 Then                                          'life led & statusbyte set
    Led_life = 1
    Else
    Led_life = 0
-   Led_act = 1
+   Led_tx = 1
    End If
 
 Reset Watchdog
@@ -232,6 +239,7 @@ Goto Main
 End
 
 Serialsend:
+   Led2 = 203
    Crc = Checksum(send)
    Print Send + "#" + Str(crc)
    Return
