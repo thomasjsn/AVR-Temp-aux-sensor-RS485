@@ -1,0 +1,8 @@
+temp/
+basavr.log
+*.bin
+*.bm
+*.cfg
+*.dbg
+*.obj
+*.sim
