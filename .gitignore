@@ -1,3 +1,5 @@
+Schematics/*.s#?
+Schematics/*.png
 basavr.log
 *.bin
 *.bm
